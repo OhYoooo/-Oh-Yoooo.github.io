@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    如何用VS Code免翻墙听网易云音乐 |
+    
+    OhYoooo</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+  
+  <script src="/js/pace.min.js"></script>
+</head>
+</html>
+<body>
+<main class="content">
+  <section class="outer">
+  <article id="post-如何用VS-Code免翻墙听网易云音乐" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      如何用VS Code免翻墙听网易云音乐
+    </h1>
+  
+
+      </header>
+    
+
+    
+      <div class="article-meta">
+        <a href="/2019/05/22/如何用VS-Code免翻墙听网易云音乐/" class="article-date">
+  <time datetime="2019-05-22T07:27:00.000Z" itemprop="datePublished">2019-05-22</time>
+</a>
+        
+      </div>
+    
+
+    <div class="article-entry" style="text-align: justify" itemprop="articleBody">
+      
+
+      
+  <div class="article-gallery">
+    <div class="article-gallery-photos">
+      
+        
+          <img src="/../images/neteaseMusic.JPG" itemprop="image">
+        
+      
+    </div>
+  </div>
+
+
+      
+        <p>在墙外打开网易云音乐发现全是灰色的？ 抱歉您所在区域无法播放？ 该资源暂无版权？ 需要vip？<br>VS Code<strong>一行script</strong>全搞定～～ <a id="more"></a></p>
+<ul>
+<li><p>打开VS Code</p>
+</li>
+<li><p>左侧 Extensions 搜索 Netease Music (VSC Netease Music) 或者点<a href="https://marketplace.visualstudio.com/items?itemName=nondanee.vsc-netease-music" target="_blank" rel="noopener">这里</a></p>
+</li>
+<li><p>点击 Install 后重启 VS Code</p>
+</li>
+<li><p>作者提供了基于 VS Code 自身插件工具 Webview 实现的通过替换 electron 动态链接库翻墙的插件, 有详细的<a href="https://marketplace.visualstudio.com/items?itemName=nondanee.vsc-netease-music" target="_blank" rel="noopener">中文文档</a>, 这里 <strong>Unix Shell</strong> 用户（包括 <strong>MacOS</strong>）可以直接在 <strong>Terminal</strong> （任意dir）输入以下script:</p>
+<pre><code>curl https://gist.githubusercontent.com/nondanee/f157bbbccecfe29e48d87273cd02e213/raw | python
+</code></pre><p>script 输出结果为:</p>
+<pre><code>% Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                               Dload  Upload   Total   Spent    Left  Speed
+100  3060  100  3060    0     0   8496      0 --:--:-- --:--:-- --:--:--  8476  
+vscode 1.34.0 x64
+electron 3.1.8
+download well
+replace done
+remove temp
+</code></pre></li>
+<li><p>替换完毕后打开 VS Code, 上方工具栏 Go -&gt; Go to file… 或者 <code>Command(⌘) P</code>, 输入：</p>
+<pre><code>&gt;NeteaseMusic: Start
+</code></pre><p>等待 editor 跳出 <strong>Please preserve this webview tab</strong> 后就可以使用所有网易云的功能了, 注意这个tab页面必须要保留（不能关闭）</p>
+</li>
+<li><p>使用时直接<code>Command(⌘) P**</code>后输入命令即可, 命令都是以 <code>&gt;NeteaseMusic</code>起头, 输入 <code>&gt;ne</code> 后VS Code会自动跳出并补齐可行指令, 甚至还可以登陆收藏查看评论</p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://ohyoooo.github.io/2019/05/22/如何用VS-Code免翻墙听网易云音乐/" data-id="cjyr0o3tq000gvuyljqe5hczs"
+         class="article-share-link">Share</a>
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NeteaseMusic/">NeteaseMusic</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VS-Code/">VS Code</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网易云/">网易云</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+    
+  <nav class="article-nav">
+    
+      <a href="/2019/05/22/Implement-Zero-Data-Loss-in-Spark-Streaming/" class="article-nav-link">
+        <strong class="article-nav-caption">Newer posts</strong>
+        <div class="article-nav-title">
+          
+            Implement Zero Data Loss in Spark Streaming
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2019/05/12/Type-slice-in-Golang/" class="article-nav-link">
+        <strong class="article-nav-caption">Olde posts</strong>
+        <div class="article-nav-title">Slice in Golang</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+    
+  
+
+</article>
+
+
+
+</section>
+  <footer class="footer">
+  
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2019 OhYoooo</li>
+      <li>Powered by <a href="https://ja.wikipedia.org/wiki/%E6%84%9B" target="_blank">Love</a></li>
+      <!-- <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li> -->
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/hexo.svg" alt="OhYoooo"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">Home</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">Archives</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/gallery">Gallery</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/about">About</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+      <li class="nav-item">
+          <div class="totop" id="totop">
+    <i class="fe fe-rocket"></i>
+</div>
+      </li>
+    <li class="nav-item">
+      
+        <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+          <i class="fe fe-feed"></i>
+        </a>
+      
+    </li>
+  </ul>
+</nav>
+
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+<script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/lazyload.min.js"></script>
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  <script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+  <script src="/js/search.js"></script>
+
+
+<script src="/js/ocean.js"></script>
+<script src="/js/prettify.js"></script>
+<script src="/js/ocean.js"></script>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+   $('pre').addClass('prettyprint linenums');
+     prettyPrint();
+   })
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/koharu.model.json"},"display":{"position":"right","width":200,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>

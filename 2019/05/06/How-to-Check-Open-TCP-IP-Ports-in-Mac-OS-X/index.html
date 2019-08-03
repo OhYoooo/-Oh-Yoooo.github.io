@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    How to Check Open TCP/IP Ports in Mac OS X |
+    
+    OhYoooo</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+  
+  <script src="/js/pace.min.js"></script>
+</head>
+</html>
+<body>
+<main class="content">
+  <section class="outer">
+  <article id="post-How-to-Check-Open-TCP-IP-Ports-in-Mac-OS-X" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      How to Check Open TCP/IP Ports in Mac OS X
+    </h1>
+  
+
+      </header>
+    
+
+    
+      <div class="article-meta">
+        <a href="/2019/05/06/How-to-Check-Open-TCP-IP-Ports-in-Mac-OS-X/" class="article-date">
+  <time datetime="2019-05-06T08:48:23.000Z" itemprop="datePublished">2019-05-06</time>
+</a>
+        
+      </div>
+    
+
+    <div class="article-entry" style="text-align: justify" itemprop="articleBody">
+      
+
+      
+  <div class="article-gallery">
+    <div class="article-gallery-photos">
+      
+        
+          <img src="/../images/cli.JPG" itemprop="image">
+        
+      
+    </div>
+  </div>
+
+
+      
+        <p>The core of Mac OS is Darwin and we can use most of the CLI tools in Mac OS just like how it feels like in Linux. If we want to check out the current ports in usage, the command <strong><code>netstat</code></strong> is useful:</p>
+<pre><code>netstat -ap tcp | grep -i &quot;listen&quot;
+</code></pre><a id="more"></a>
+<p>That will print out something like this in the console:</p>
+<pre><code>Achive Internet connections(including servers)
+Proto     Recv-Q      Send-Q       Local Address       Foreign Address     (state)     
+tcp4      0           0            localhost.25035     *.*                  LISTEN
+</code></pre><p>That works but the problem is that it doesn’t show up the names of the procedures which occupy the ports. Sometimes we want to know precisely which program is exposing the port. </p>
+<p>Then found out that there is another command <strong><code>lsof</code></strong>:</p>
+<pre><code>sudo lsof -nP -iTCP:PortNumber -sTCP:LISTEN
+</code></pre><p>which prints out all the processes running in a given port with specific names:</p>
+<pre><code>COMMAND    PID    USER    FD    TYPE    DEVICE    SIZE/OFF    NODE       NAME
+syslogd    350    root    5w    VREG    222,5     0           440818     /var/adm/messages     
+syslogd    350    root    6w    VREG    222,5     339098      6248       /var/log/syslog
+cron       353    root    cwd   VDIR    222,5     512         254550     /var -- atjobs
+</code></pre><p><strong><code>-n</code></strong> : No dns (no host name)<br><strong><code>-P</code></strong> : List port number instead of its name<br><strong><code>-i</code></strong> : Lists IP sockets</p>
+<p>To view the port associated with a daemon:</p>
+<pre><code>lsof -i -n -P | grep python
+</code></pre><p>If we just want to see the name:</p>
+<pre><code>sudo lsof -i :PortNumber | grep LISTEN
+</code></pre><p>Get all running <strong>PID</strong> in a specific port:</p>
+<pre><code>sudo lsof -i :PortNumber| grep LISTEN | awk &#39;{ print $2; }&#39; | head -n 2 | grep -v PID   
+</code></pre><p>And then we can kill all the processes:</p>
+<pre><code>sudo kill -9 $(sudo lsof -i :PortNumber| grep LISTEN | awk &#39;{ print $2; }&#39; | head -n 2 | grep -v PID)   
+</code></pre><p>list all commands:</p>
+<pre><code>lsof -h
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://ohyoooo.github.io/2019/05/06/How-to-Check-Open-TCP-IP-Ports-in-Mac-OS-X/" data-id="cjyr0o3t40002vuylxg7enpj0"
+         class="article-share-link">Share</a>
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CLI/">CLI</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Mac-OS/">Mac OS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/port/">port</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+    
+  <nav class="article-nav">
+    
+      <a href="/2019/05/08/How-to-debug-NodeJS-on-VS-Code/" class="article-nav-link">
+        <strong class="article-nav-caption">Newer posts</strong>
+        <div class="article-nav-title">
+          
+            How to debug NodeJS on VS Code
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2019/05/05/Memory-Leak-in-Serveral-Commonly-Used-Programming-Languages/" class="article-nav-link">
+        <strong class="article-nav-caption">Olde posts</strong>
+        <div class="article-nav-title">Memory Leaks in Serveral Commonly Used Programming Languages</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+    
+  
+
+</article>
+
+
+
+</section>
+  <footer class="footer">
+  
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2019 OhYoooo</li>
+      <li>Powered by <a href="https://ja.wikipedia.org/wiki/%E6%84%9B" target="_blank">Love</a></li>
+      <!-- <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li> -->
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/hexo.svg" alt="OhYoooo"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">Home</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">Archives</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/gallery">Gallery</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/about">About</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+      <li class="nav-item">
+          <div class="totop" id="totop">
+    <i class="fe fe-rocket"></i>
+</div>
+      </li>
+    <li class="nav-item">
+      
+        <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+          <i class="fe fe-feed"></i>
+        </a>
+      
+    </li>
+  </ul>
+</nav>
+
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+<script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/lazyload.min.js"></script>
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  <script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+  <script src="/js/search.js"></script>
+
+
+<script src="/js/ocean.js"></script>
+<script src="/js/prettify.js"></script>
+<script src="/js/ocean.js"></script>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+   $('pre').addClass('prettyprint linenums');
+     prettyPrint();
+   })
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/koharu.model.json"},"display":{"position":"right","width":200,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>
