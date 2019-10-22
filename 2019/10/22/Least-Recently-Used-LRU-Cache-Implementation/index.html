@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    LRU Cache Python Implementation |
+    
+    OhYoooo</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+  
+  <script src="/js/pace.min.js"></script>
+</head>
+</html>
+<body>
+<main class="content">
+  <section class="outer">
+  <article id="post-Least-Recently-Used-LRU-Cache-Implementation" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      LRU Cache Python Implementation
+    </h1>
+  
+
+      </header>
+    
+
+    
+      <div class="article-meta">
+        <a href="/2019/10/22/Least-Recently-Used-LRU-Cache-Implementation/" class="article-date">
+  <time datetime="2019-10-22T05:28:12.000Z" itemprop="datePublished">2019-10-22</time>
+</a>
+        
+      </div>
+    
+
+    <div class="article-entry" style="text-align: justify" itemprop="articleBody">
+      
+
+      
+  <div class="article-gallery">
+    <div class="article-gallery-photos">
+      
+        
+          <img src="/../images/LRU.png" itemprop="image">
+        
+      
+    </div>
+  </div>
+
+
+      
+        <p>This implementation is based on <strong>double-linked-list</strong> and <strong>dictionary</strong>. Runtime: O(1)<br><a id="more"></a></p>
+<h2 id="Init"><a href="#Init" class="headerlink" title="Init"></a>Init</h2><p>initialize the linked-list with a sentinel head and tail<br><img src="/2019/10/22/Least-Recently-Used-LRU-Cache-Implementation/LRU_init_node.png" alt="init sentinel node"><br>And an empty dictionary:</p>
+<pre><code class="python">dict = { }
+</code></pre>
+<p><br></p>
+<h2 id="Insert"><a href="#Insert" class="headerlink" title="Insert"></a>Insert</h2><p>Suppose we have a object to insert</p>
+<pre><code>{ keyA: value_a }
+</code></pre><p>Firstly we check out if out dictionary already contains a key named <code>A</code> (if so remove it from the linked list). Then append the new node to the tail of our linked-list<br><img src="/2019/10/22/Least-Recently-Used-LRU-Cache-Implementation/LRU_first_insert.png" alt="init sentinel node"><br>Afterwards, add the new object to our dictionary key by <code>keyA</code></p>
+<pre><code class="python">dict = { keyA: valueA }
+</code></pre>
+<p>If we have already constructed the follwing linked-list<br><img src="/2019/10/22/Least-Recently-Used-LRU-Cache-Implementation/LRU_before_second_insert.png" alt="init sentinel node"><br>Then to insert { keyA: valueA } once again (for example, the same object is used/modified again)<br>We will firstly remove it from the current linked-list and append the same node at the tail of the list<br><img src="/2019/10/22/Least-Recently-Used-LRU-Cache-Implementation/LRU_after_second_insert.png" alt="init sentinel node"></p>
+<p>After the insertion, if the size of the list hit the maximum capacity, we need to pop the first element (which is not recently used), and assign sentinel head to the next element<br><br></p>
+<h2 id="Get"><a href="#Get" class="headerlink" title="Get"></a>Get</h2><p>Checkout if our dictionary contains the key, if not, which means the element does not exist, return -1.<br>If the key does exist, get the target node, then remove it from the linked-list and append at the tail<br><br></p>
+<h2 id="Implementation"><a href="#Implementation" class="headerlink" title="Implementation"></a>Implementation</h2><pre><code class="python">class Node:
+    def __init__(self, k, v):
+        self.key = k
+        self.val = v
+        self.prev = None
+        self.next = None
+
+class LRUCache:
+    def __init__(self, capacity: int):
+        self.capacity = capacity
+        self.dict = {}
+        self.head = Node(0, 0)
+        self.tail = Node(0, 0)
+        self.head.next = self.tail
+        self.tail.prev = self.head
+
+    def get(self, key: int) -&gt; int:
+        if key in self.dict:
+            node = self.dict[key]
+            self._remove(node)
+            self._append(node)
+            return node.val
+        return -1
+
+    def put(self, key: int, value: int) -&gt; None:
+        if key in self.dict:
+            self._remove(self.dict[key])
+        node = Node(key, value)
+        self._append(node)
+        self.dict[key] = node
+        if len(self.dict) &gt; self.capacity:
+            n = self.head.next
+            self._remove(n)
+            del self.dict[n.key]
+
+    def _remove(self, node: Node):
+        p = node.prev
+        n = node.next
+        p.next = n
+        n.prev = p
+
+    def _append(self, node: Node):
+        p = self.tail.prev
+        p.next = node
+        node.prev = p
+        node.next = self.tail
+        self.tail.prev = node
+
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://ohyoooo.github.io/2019/10/22/Least-Recently-Used-LRU-Cache-Implementation/" data-id="ck21y0j5e0006fqyllzi64q7y"
+         class="article-share-link">Share</a>
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Algorithm/">Algorithm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Data-Structure/">Data Structure</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/LRU/">LRU</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+    
+  <nav class="article-nav">
+    
+    
+      <a href="/2019/10/10/Configure-Kerberos-Authentication-in-Golang/" class="article-nav-link">
+        <strong class="article-nav-caption">Olde posts</strong>
+        <div class="article-nav-title">Configure Kerberos Authentication in Golang</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+    
+  
+
+</article>
+
+
+
+</section>
+  <footer class="footer">
+  
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2019 OhYoooo</li>
+      <li>Powered by <a href="https://ja.wikipedia.org/wiki/%E6%84%9B" target="_blank">Love</a></li>
+      <!-- <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li> -->
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/hexo.svg" alt="OhYoooo"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">Home</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">Archives</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/gallery">Gallery</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/about">About</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+      <li class="nav-item">
+          <div class="totop" id="totop">
+    <i class="fe fe-rocket"></i>
+</div>
+      </li>
+    <li class="nav-item">
+      
+        <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+          <i class="fe fe-feed"></i>
+        </a>
+      
+    </li>
+  </ul>
+</nav>
+
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+<script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/lazyload.min.js"></script>
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  <script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+  <script src="/js/search.js"></script>
+
+
+<script src="/js/ocean.js"></script>
+<script src="/js/prettify.js"></script>
+<script src="/js/ocean.js"></script>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+   $('pre').addClass('prettyprint linenums');
+     prettyPrint();
+   })
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/koharu.model.json"},"display":{"position":"right","width":200,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>
